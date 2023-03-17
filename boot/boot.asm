@@ -19,14 +19,20 @@ section code
 .clear: ; When QEMU starts, our BIOS prints a lotta junk to video memory, lets clear it cuz gross!!
     mov byte [es:eax], 0
     inc eax
-    mov byte [es:eax], 0x30
+    mov byte [es:eax], 0x02
     inc eax
 
     cmp eax, 2 * 25 * 80
     jl .clear
 
     mov eax, text
-    push .end   ; Push the next location for 'ret' to return to
+    mov ecx, 3*2*80 + 0x02
+    call .print
+    ;push .end   ; Push the next location for 'ret' to return to
+
+.end:
+    ;mov byte [es:0x00], 'L' ; Debug Character
+    jmp $
 
 .print:
     mov dl, byte [eax + ebx]
@@ -44,9 +50,6 @@ section code
 .print_end:
     mov eax, 0
     ret
-
-.end:
-    jmp $
 
 text: db 'Hello, World!', 0
 text1: db 'This is another text.', 0
