@@ -51,7 +51,7 @@ section code
 
 .switch:
     mov ax, 0x4f01      ; querying the VBE
-    mov cx, 0x10E       ; Mode we want
+    mov cx, 0x10E       ; VBE mode we want (resolution and other settings)
     mov bx, 0x0800      ; Offset for VBE info structure
     mov es, bx
     mov di, 0x00
