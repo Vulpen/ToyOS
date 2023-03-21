@@ -34,9 +34,16 @@ typedef struct VBEInfoBlock {
 } VBEInfoBlock;
 
 #define VBEInfoAddress 0x8000         // Coresponds with what we put in the assembly, but with an extra 0 (no idea why)
+
+extern const int font_arial_width;
+extern const int font_arial_height;
+
+int getArialCharacter(int index, int y);
 VBEInfoBlock* gVBE;
 int rgb(int r, int g, int b);
 void Draw(int x, int y, int r, int g, int b);
 void ClearScreen(int r, int g, int b);
 void DrawRect(int x, int y, int width, int height, int r, int g, int b);
+void DrawCharacter();
+
 #endif

@@ -1,6 +1,8 @@
 #include "graphics.h"
 
 int start() {
-    ClearScreen(0, 0, 0);
-    DrawRect(20,20,20,20,0,255,0);
+    ClearScreen(125, 0, 125);
+    DrawCharacter();
+
+    while(1);
 }
