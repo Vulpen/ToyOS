@@ -7,9 +7,9 @@ Produce an RGB value for a VBE render
     G - 4 bits
 */
 int rgb(int r, int g, int b) {
-    r = (int)(r / 3);
-    g = (int)(g / 2);
-    b = (int)(b / 3);
+    // r = (int)(r / 3);
+    // g = (int)(g / 2);
+    // b = (int)(b / 3);
 
     return r << 11 | g << 5 | b;
 }
@@ -49,6 +49,23 @@ void DrawCharacter(int (*f)(int, int), int font_width, int font_height, char cha
                 Draw(x + i, y + j, r, g, b);
             }
             shift -= 1;
+        }
+    }
+}
+
+void DrawString(int (*f)(int, int), int font_width, int font_height, char* string, int x, int y, int r, int g, int b) {
+    int i = 0, j = 0;
+
+    for (int k = 0; *(string + k) != 0; k++) {
+        if(*(string + k) != '\n') {
+            DrawCharacter(f, font_width, font_height, *(string + k), x + i, y + j, r, g, b);
+        }
+
+        i += font_width - font_width / 5;
+
+        if (*(string + k) == '\n') {
+            i = 0;
+            j += font_height;
         }
     }
 }
