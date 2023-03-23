@@ -34,6 +34,7 @@ typedef struct VBEInfoBlock {
 } VBEInfoBlock;
 
 #define VBEInfoAddress 0x8000         // Coresponds with what we put in the assembly, but with an extra 0 (no idea why)
+#define ScreenBufferAddress 0xffff0
 
 extern const int font_arial_width;
 extern const int font_arial_height;
@@ -46,5 +47,6 @@ void ClearScreen(int r, int g, int b);
 void DrawRect(int x, int y, int width, int height, int r, int g, int b);
 void DrawCharacter(int (*f)(int, int), int font_width, int font_height, char character, int x, int y, int r, int g, int b);
 void DrawString(int (*f)(int, int), int font_width, int font_height, char* string, int x, int y, int r, int g, int b);
+void Flush();
 
 #endif
