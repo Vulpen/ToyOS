@@ -1,5 +1,7 @@
 #include "graphics.h"
 
+//TODO: Alot of dereferences in this file can be cached for performance.
+
 /*
 Produce an RGB value for a VBE render
     R - 4 bits
