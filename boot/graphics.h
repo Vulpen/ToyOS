@@ -1,5 +1,6 @@
 #ifndef GRAPHICS_H
 #define GRAPHICS_H
+
 typedef struct VBEInfoBlock {
     unsigned short mode_attribute;
     unsigned char win_a_attribute;

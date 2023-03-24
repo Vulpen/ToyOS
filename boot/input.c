@@ -1,4 +1,4 @@
-#include <stdint.h>         // Need to include this so we can guarantee some data sizes are actually a byte (uint8_t)
+#include <stdint.h>         // Need to include this so we can guarantee some data sizes are actually a byte (uint8_
 #include "graphics.h"
 
 int x, y;
@@ -6,6 +6,9 @@ int left_clicked, right_clicked, middle_clicked;
 int current_byte = 0;
 uint8_t bytes[4] = { 0 };
 int mouse_speed = 3;
+
+#define TRUE 1
+#define FALSE 0
 
 #define pic1_command 0x20       // pic is the interrupt chip
 #define pic1_data 0x21
@@ -164,6 +167,8 @@ void HandleMouseInterrupt() {
 }
 
 void HandleMousePacket() {
+    VBEInfoBlock* VBE = (VBEInfoBlock*) VBEInfoAddress;
+
     uint8_t status = bytes[0];
     int32_t change_x = (int32_t)bytes[1];
     int32_t change_y = (int32_t)bytes[2];
@@ -183,15 +188,27 @@ void HandleMousePacket() {
     middle_clicked = status & middle_click;
 
     if (change_x > 0) {
-        x += 3;
+        x += 6;
     } else if (change_x < 0) {
-        x -= 3;
+        x -= 6;
     }
 
     if (change_y > 0) {
-        y -= 3;
+        y -= 6;
     } else if (change_y < 0) {
-        y += 3;
+        y += 6;
+    }
+
+    if( x < 0) {
+        x = 0;
+    } else if (x > VBE->x_resolution) {
+        x = VBE->x_resolution - 10;
+    }
+
+    if(y < 0) {
+        y = 0;
+    } else if (y > VBE->y_resolution) {
+        y = VBE->y_resolution - 10;
     }
 }
 
@@ -221,3 +238,11 @@ void InitializeMouse() {
     MouseWrite(0xf4);
     MouseRead();
 }
+
+// Don't have a 'valid' input character, not sure what exactly that means?
+int shift_pressed = FALSE;
+int caps_pressed = FALSE;
+int escape_pressed = FALSE;
+int backspace_pressed = FALSE;
+int alt_pressed = FALSE;
+int enter_pressed = FALSE;

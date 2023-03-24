@@ -51,7 +51,7 @@ section code
 
 .switch:
     mov ax, 0x4f01      ; querying the VBE
-    mov cx, 0x117       ; VBE mode we want (resolution and other settings)
+    mov cx, 0x111       ; VBE mode we want (resolution and other settings)
     mov bx, 0x0800      ; Offset for VBE info structure
     mov es, bx
     mov di, 0x00
@@ -59,7 +59,7 @@ section code
 
     ; Make the switch to graphics mode
     mov ax, 0x4f02
-    mov bx, 0x117
+    mov bx, 0x111
     int 0x10
 
     xor ax, ax
