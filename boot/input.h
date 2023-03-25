@@ -29,6 +29,13 @@ int current_byte = 0;
 uint8_t bytes[4] = { 0 };
 int mouse_speed = 3;
 
+void MouseWait(unsigned char type);
+void MouseWrite(unsigned char data);
+unsigned char MouseRead();
+void HandleMousePacket();
+void HandleMouseInterrupt();
+void InitializeMouse();
+
 // These don't have a 'valid' input character, not sure what exactly that means?
 int shift_pressed = FALSE;
 int caps_pressed = FALSE;
@@ -38,10 +45,26 @@ int alt_pressed = FALSE;
 int ctrl_pressed = FALSE;
 int enter_pressed = FALSE;
 
+unsigned char ProcessScancode(int scancode);
+
 void InitializeIDT();
 extern void LoadIDT();
 void HandleISR1();
 void HandleISR12();
 void RemapPIC();
+
+int Scancode = -1;
+
+struct IDTElement {
+    unsigned short lower;
+    unsigned short selector;
+    unsigned char zero;
+    unsigned char flags;
+    unsigned short higher;
+};
+
+struct IDTElement _idt[256];
+extern unsigned int isr1, isr12;        // Assembly functions
+unsigned int base, base12;
 
 #endif

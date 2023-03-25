@@ -1,19 +1,7 @@
 #include <stdint.h>         // Need to include this so we can guarantee some data sizes are actually a byte (uint8_
 #include "input.h"
 
-int Scancode = -1;
 
-struct IDTElement {
-    unsigned short lower;
-    unsigned short selector;
-    unsigned char zero;
-    unsigned char flags;
-    unsigned short higher;
-};
-
-struct IDTElement _idt[256];
-extern unsigned int isr1, isr12;        // Assembly functions
-unsigned int base, base12;
 
 unsigned char inportb(unsigned short port) {
     unsigned char value;
@@ -107,8 +95,7 @@ unsigned char MouseRead() {
     return inportb(0x60);
 }
 
-void HandleMousePacket();
-void HandleMouseInterrupt();
+
 void HandleISR12() {
     HandleMouseInterrupt();
     outportb(0xa0, 0x20);
