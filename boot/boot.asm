@@ -3,6 +3,14 @@
 
 section code
 
+; Added this section for booting on real hardware from another course :fingers_crossed:
+_start:
+    jmp short .switch
+    nop
+
+; BIOS parameter block
+times 33 db 0
+
 ; .init:
 ;     ; mov es, 0xb800 Ideally we do this to move this value to the es register
 ;     ; ES can't be directly written to, as it's an 'intermediate' register
@@ -51,7 +59,7 @@ section code
 
 .switch:
     mov ax, 0x4f01      ; querying the VBE
-    mov cx, 0x111       ; VBE mode we want (resolution and other settings)
+    mov cx, 0x10e       ; VBE mode we want (resolution and other settings)
     mov bx, 0x0800      ; Offset for VBE info structure
     mov es, bx
     mov di, 0x00
@@ -59,7 +67,7 @@ section code
 
     ; Make the switch to graphics mode
     mov ax, 0x4f02
-    mov bx, 0x111
+    mov bx, 0x10e
     int 0x10
 
     xor ax, ax
@@ -84,7 +92,7 @@ section code
 
     jmp code_seg:protected_start        ; Not sure why we need this offset
 
-welcome: db 'Welcome to PeepOS!', 0
+;welcome: db 'Welcome to PeepOS!', 0
 
 [bits 32]
 protected_start:
