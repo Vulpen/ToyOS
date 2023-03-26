@@ -8,30 +8,28 @@ void ProcessTasks() {
     {
         for(int i = 0; i < TasksLength; i++) {
             if (tasks[i].priority == priority){
-                if (tasks[i].type == task_type_void) {
-                    tasks[i].function_void();
-                } else if (tasks[i].type == task_type_string_buffer) {
-                    tasks[i].function_string_buffer(tasks[i].param1, &tasks[i].param2);
-                }
+                tasks[i].function(tasks[i].taskId);
             }
         }
         priority++;
     }
 }
 
-int ClearScreenTask() {
+int ClearScreenTask(int taskid) {
     ClearScreen(119.0f / 255.0f * 16.0f, 41.0f / 255.0f * 32.0f, 83.0f / 255.0f * 16.0f);
 
     return 0;
 }
 
-int DrawMouseTask() {
+int DrawMouseTask(int taskid) {
     DrawMouse(x,y, 16,255,16);
 
     return 0;
 }
 
-int HandleKeyboardTask(char* characterBuffer, int* characterBufferLength) {
+int HandleKeyboardTask(int taskid) {
+    char* characterBuffer = tasks[taskid].ca1;
+    int* characterBufferLength = &tasks[taskid].i1;
     char character = ProcessScancode(Scancode);
 
     if(backspace_pressed == TRUE) {

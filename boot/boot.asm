@@ -40,26 +40,35 @@ times 33 db 0
 ;     ;mov byte [es:0x00], 'L' ; Debug Character
 ;     jmp $
 
-; .print:
-;     mov dl, byte [eax + ebx]
+.print:
+    mov dl, byte [eax + ebx]
 
-;     cmp dl, 0
-;     je .print_end
+    cmp dl, 0
+    je .print_end
 
-;     mov byte [es:ecx], dl
-;     inc ebx
-;     inc ecx
-;     inc ecx
+    mov byte [es:ecx], dl
+    inc ebx
+    inc ecx
+    inc ecx
 
-;     jmp .print
+    jmp .print
 
-; .print_end:
-;     mov eax, 0
-;     ret
+.print_end:
+    mov eax, 0
+    ret
 
 .switch:
+    ; mov eax, 0xb800       Attempt to add a print early on...
+    ; mov bx, 0
+    ; mov es, eax
+    ; mov ax, welcome
+    ; mov cx, 0*2*80
+    ; call .print
+    ; mov eax, 0
+    ; mov es, eax
+
     mov ax, 0x4f01      ; querying the VBE
-    mov cx, 0x10e       ; VBE mode we want (resolution and other settings)
+    mov cx, 0x111       ; VBE mode we want (resolution and other settings)
     mov bx, 0x0800      ; Offset for VBE info structure
     mov es, bx
     mov di, 0x00
@@ -67,17 +76,18 @@ times 33 db 0
 
     ; Make the switch to graphics mode
     mov ax, 0x4f02
-    mov bx, 0x10e
+    mov bx, 0x111
     int 0x10
 
     xor ax, ax
     mov ds, ax
     mov es, ax
 
+
     ; Load in our C code
     mov bx, 0x1000      ; Location of where the code is loaded from HDD
     mov ah, 0x02
-    mov al, 50          ; Number of sectors to read, on a real device change this to 1
+    mov al, 31          ; Number of sectors to read, on a real device change this to 1
     mov ch, 0x00
     mov dh, 0x00
     mov cl, 0x02
@@ -92,10 +102,11 @@ times 33 db 0
 
     jmp code_seg:protected_start        ; Not sure why we need this offset
 
-;welcome: db 'Welcome to PeepOS!', 0
+welcome: db 'Welcome to PeepOS!', 0
 
 [bits 32]
 protected_start:
+   
     mov ax, data_seg
     mov ds, ax
     mov ss, ax

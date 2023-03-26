@@ -1,3 +1,7 @@
+
+fdisk -l
+dd if= of=
+
 )
 Values for VESA video mode:
  00h-FFh OEM video modes (see #00010 at AH=00h)
