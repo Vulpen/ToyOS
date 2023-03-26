@@ -193,7 +193,10 @@ void InitializeMouse() {
 }
 
 // This seems horrible, def look for a way to fix
-unsigned char ProcessScancode(int scancode) {
+char ProcessScancode(int scancode) {
+    // No idea why, but this function returns unsigned char, yet the course has us returning -1.
+    // His compiler seems totally fine with that
+
     if (scancode ==  0x01)
         escape_pressed = TRUE;
         
@@ -270,9 +273,10 @@ unsigned char ProcessScancode(int scancode) {
             return '=';
         
     // Backspace
-    else if (scancode == 0x0E)
+    else if (scancode == 0x0E) {
         backspace_pressed = TRUE;
-        
+    }
+       
         
     else if (scancode == 0x0F)
         return '\t';
@@ -434,8 +438,11 @@ unsigned char ProcessScancode(int scancode) {
             return '`';
         
     // shift pressed
-    else if (scancode == 0x2A)
+    else if (scancode == 0x2A) {
         shift_pressed = TRUE;
+        return -1;
+    }
+        
         
         
     else if (scancode == 0x2B)
@@ -505,34 +512,43 @@ unsigned char ProcessScancode(int scancode) {
             return '/';
 
     // shift pressed    
-    else if (scancode == 0x36)
+    else if (scancode == 0x36) {
         shift_pressed = TRUE;
+        return -1;
+    }
+
         
 
     // alt pressed
-    else if (scancode == 0x38)
+    else if (scancode == 0x38) {
         alt_pressed = TRUE;
+    }
         
         
     else if (scancode == 0x39)
         return ' ';
     
     // Caps pressed
-    else if (scancode == 0x3A)
+    else if (scancode == 0x3A) {
         if (caps_pressed == TRUE)
             caps_pressed = FALSE;
         else if (caps_pressed == FALSE)
             caps_pressed = TRUE;
+        return -1;
+    }
         
 
     // shift released
-    if (scancode == 0xAA)
+    if (scancode == 0xAA) {
         shift_pressed = FALSE;
+        return -1;
+    }
         
 
     // shift released
-    if (scancode == 0xB6)
+    if (scancode == 0xB6)  {
         shift_pressed = FALSE;
-
+        return -1;
+    }
     return '\0';
 }

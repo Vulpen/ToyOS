@@ -45,7 +45,7 @@ int alt_pressed = FALSE;
 int ctrl_pressed = FALSE;
 int enter_pressed = FALSE;
 
-unsigned char ProcessScancode(int scancode);
+char ProcessScancode(int scancode);
 
 void InitializeIDT();
 extern void LoadIDT();

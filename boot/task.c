@@ -35,11 +35,11 @@ int HandleKeyboardTask(char* characterBuffer, int* characterBufferLength) {
     char character = ProcessScancode(Scancode);
 
     if(backspace_pressed == TRUE) {
-        characterBuffer[*characterBufferLength - 1] = '\0';
-        characterBufferLength--;
+        characterBuffer[(*characterBufferLength) - 1] = '\0';
+        (*characterBufferLength)--;
         backspace_pressed = FALSE;
         Scancode = -1;
-    } else if (character != '\0') {
+    } else if (character != '\0' && character != -1) {
         characterBuffer[*characterBufferLength] = character;
         characterBuffer[*characterBufferLength + 1] = '\0';
         (*characterBufferLength)++;
