@@ -23,7 +23,7 @@
 #define unused_a        0b10000000
 #define unused_b        0b01000000
 
-int x, y;
+int mx, my;
 int left_clicked, right_clicked, middle_clicked;
 int current_byte = 0;
 uint8_t bytes[4] = { 0 };

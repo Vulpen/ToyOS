@@ -141,27 +141,27 @@ void HandleMousePacket() {
     middle_clicked = status & middle_click;
 
     if (change_x > 0) {
-        x += 6;
+        mx += 6;
     } else if (change_x < 0) {
-        x -= 6;
+        mx -= 6;
     }
 
     if (change_y > 0) {
-        y -= 6;
+        my -= 6;
     } else if (change_y < 0) {
-        y += 6;
+        my += 6;
     }
 
-    if( x < 0) {
-        x = 0;
-    } else if (x > VBE->x_resolution) {
-        x = VBE->x_resolution - 10;
+    if( mx < 0) {
+        mx = 0;
+    } else if (mx > VBE->x_resolution) {
+        mx = VBE->x_resolution - 15;
     }
 
-    if(y < 0) {
-        y = 0;
-    } else if (y > VBE->y_resolution) {
-        y = VBE->y_resolution - 10;
+    if(my < 0) {
+        my = 0;
+    } else if (my > VBE->y_resolution) {
+        my = VBE->y_resolution - 15;
     }
 }
 

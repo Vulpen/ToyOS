@@ -3,4 +3,5 @@
 #include "font.c"
 #include "input.c"
 #include "task.c"
+#include "graphics_elements.c"
 #include "main.c"

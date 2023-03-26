@@ -1,6 +1,7 @@
 #ifndef TASK_H
 #define TASK_H
 
+#define task_params_length 10
 int TasksLength = 0;
 
 
@@ -23,5 +24,6 @@ int iparams[100] = { 10 };  // Extra parameters for tasks
 int ClearScreenTask(int taskid);
 int DrawMouseTask(int taskid);
 int HandleKeyboardTask(int taskid);
+int TestGraphicalElementsTask(int taskid);
 
 #endif

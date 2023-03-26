@@ -1,5 +1,6 @@
 #include "task.h"
 #include "input.h"
+#include "graphics_elements.h"
 
 void ProcessTasks() {
     int priority = 0;
@@ -22,7 +23,7 @@ int ClearScreenTask(int taskid) {
 }
 
 int DrawMouseTask(int taskid) {
-    DrawMouse(x,y, 16,255,16);
+    DrawMouse(mx,my, 0,0,0);
 
     return 0;
 }
@@ -46,5 +47,42 @@ int HandleKeyboardTask(int taskid) {
 
     DrawString(getArialCharacter, font_arial_width, font_arial_height, characterBuffer, 10, 10, 221, 72, 20);
 
+    return 0;
+}
+
+int TestGraphicalElementsTask(int taskid) {
+    if(left_clicked == FALSE) {
+        iparams[taskid * task_params_length + 9] = FALSE;
+    }
+
+    /*
+        iparams:
+        0 - x
+        1 - y
+        2 - width
+        3 - height
+        9 - mouse click held down flag
+    */
+    if(
+        iparams[taskid * task_params_length + 9] == TRUE || (
+            (left_clicked == TRUE && mx > iparams[taskid * task_params_length + 0]) &&
+            mx < iparams[taskid * task_params_length + 0] + iparams[taskid * task_params_length + 2] &&
+            my > iparams[taskid * task_params_length + 1] &&
+            my < iparams[taskid * task_params_length + 1] + 20
+        )
+    )
+    {
+        left_clicked = FALSE;
+        iparams[taskid * task_params_length + 9] = TRUE;
+        iparams[taskid * task_params_length + 0] = mx - (iparams[taskid*task_params_length+2]/2);
+        iparams[taskid * task_params_length + 1] = my - 10;
+    }
+
+    DrawWindow(
+            iparams[taskid * task_params_length + 0],
+            iparams[taskid * task_params_length + 1],
+            iparams[taskid * task_params_length + 2],
+            iparams[taskid * task_params_length + 3], 221.0f / 255.0f * 16.0f, 72.0f / 255.0f * 32.0f, 20.0f / 255.0f * 16.0f
+        );
     return 0;
 }
