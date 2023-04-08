@@ -51,6 +51,8 @@ void ClearScreen(int r, int g, int b);
 void DrawRect(int x, int y, int width, int height, int r, int g, int b);
 void DrawCharacter(int (*f)(int, int), int font_width, int font_height, char character, int x, int y, int r, int g, int b);
 void DrawString(int (*f)(int, int), int font_width, int font_height, char* string, int x, int y, int r, int g, int b);
+void DrawMouse(int x, int y, int r, int g, int b);
+void DrawCircle(int x, int y, int radius, int r, int g, int b);
 void Flush();
 
 #endif

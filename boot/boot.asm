@@ -87,7 +87,7 @@ times 33 db 0
     ; Load in our C code
     mov bx, 0x1000      ; Location of where the code is loaded from HDD
     mov ah, 0x02
-    mov al, 32          ; Number of sectors to read, on a real device change this to 1
+    mov al, 35          ; Number of sectors to read, on a real device change this to 1
     mov ch, 0x00
     mov dh, 0x00
     mov cl, 0x02

@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "*.asm": "nasm",
+        "*.yas": "y86",
+        "graphics.h": "c",
+        "input.h": "c"
+    }
+}

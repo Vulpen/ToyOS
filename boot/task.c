@@ -16,6 +16,14 @@ void ProcessTasks() {
     }
 }
 
+void CloseTask(int taskid) {
+    for(int i = taskid; i < TasksLength-1; i++) {
+        tasks[i] = tasks[i+1];
+    }
+
+    TasksLength--;
+}
+
 int ClearScreenTask(int taskid) {
     ClearScreen(119.0f / 255.0f * 16.0f, 41.0f / 255.0f * 32.0f, 83.0f / 255.0f * 16.0f);
 
@@ -51,38 +59,49 @@ int HandleKeyboardTask(int taskid) {
 }
 
 int TestGraphicalElementsTask(int taskid) {
-    if(left_clicked == FALSE) {
-        iparams[taskid * task_params_length + 9] = FALSE;
+    int* r = &iparams[taskid * task_params_length + 4];
+    int* g = &iparams[taskid * task_params_length + 5];
+    int* b = &iparams[taskid * task_params_length + 6];
+
+    if (
+        DrawWindow(
+            &iparams[taskid * task_params_length + 0],
+            &iparams[taskid * task_params_length + 1],
+            &iparams[taskid * task_params_length + 2],
+            &iparams[taskid * task_params_length + 3],
+            iparams[taskid * task_params_length + 4],
+            iparams[taskid * task_params_length + 5],
+            iparams[taskid * task_params_length + 6],
+            &iparams[taskid * task_params_length + 9]
+        ) == 1
+    ) {
+        CloseTask(taskid);
     }
 
-    /*
-        iparams:
-        0 - x
-        1 - y
-        2 - width
-        3 - height
-        9 - mouse click held down flag
-    */
-    if(
-        iparams[taskid * task_params_length + 9] == TRUE || (
-            (left_clicked == TRUE && mx > iparams[taskid * task_params_length + 0]) &&
-            mx < iparams[taskid * task_params_length + 0] + iparams[taskid * task_params_length + 2] &&
-            my > iparams[taskid * task_params_length + 1] &&
-            my < iparams[taskid * task_params_length + 1] + 20
-        )
-    )
-    {
-        left_clicked = FALSE;
-        iparams[taskid * task_params_length + 9] = TRUE;
-        iparams[taskid * task_params_length + 0] = mx - (iparams[taskid*task_params_length+2]/2);
-        iparams[taskid * task_params_length + 1] = my - 10;
+    char text[] = "Dark\0";
+    char text1[] = "Light\0";
+
+    if (
+        DrawButton(
+            iparams[taskid * task_params_length + 0] + 20,
+            iparams[taskid * task_params_length + 1] + 20,
+            50, 20, 0, 32, 0,
+            text, 16, 32, 16)
+        == TRUE)  {
+        *r = 0; *g = 0; *b = 0;
     }
 
-    DrawWindow(
-            iparams[taskid * task_params_length + 0],
-            iparams[taskid * task_params_length + 1],
-            iparams[taskid * task_params_length + 2],
-            iparams[taskid * task_params_length + 3], 221.0f / 255.0f * 16.0f, 72.0f / 255.0f * 32.0f, 20.0f / 255.0f * 16.0f
-        );
+    if (
+        DrawButton(
+            iparams[taskid * task_params_length + 0] + 100,
+            iparams[taskid * task_params_length + 1] + 20,
+            50, 20, 0, 32, 0,
+            text1, 16, 32, 16)
+        == TRUE)  {
+        *r = 221.0f / 255.0f * 16.0f;
+        *g = 72.0f / 255.0f * 32.0f;
+        *b = 20.0f / 255.0f * 16.0f;
+    }
+
     return 0;
 }
