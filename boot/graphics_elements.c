@@ -1,8 +1,8 @@
 #include "graphics.h"
 #include "input.h"
 
-int DrawCircleButton(int x, int y, int radius, int r, int g, int b) {
-    if (((mx - x) * (mx - x) + (my - y) * (my - y)) <= radius * radius) {
+int DrawCircleButton(int x, int y, int radius, int r, int g, int b, int taskId) {
+    if (mouse_possessed_task_id == taskId && (((mx - x) * (mx - x) + (my - y) * (my - y)) <= radius * radius)) {
         DrawCircle(x, y, radius, r, g, b);
 
         if (left_clicked == TRUE) {
@@ -61,5 +61,5 @@ int DrawWindow(int* x, int* y, int* width, int* height, int r, int g, int b, int
     DrawRect(*x, *y, *width, 20, 16, 32, 16);
     DrawRect(*x, *y+20, *width, *height, r, g, b);
     
-    return DrawCircleButton(*x + *width - 10, *y + 10, 8, 16, 0, 0);
+    return DrawCircleButton(*x + *width - 10, *y + 10, 8, 16, 0, 0, taskId);
 }

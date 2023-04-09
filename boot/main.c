@@ -67,7 +67,7 @@ int start() {
     //tasks[TasksLength].i1 = 0;
     TasksLength++;
 
-    tasks[TasksLength].priority = 0;
+    tasks[TasksLength].priority = 5;
     tasks[TasksLength].function = &DrawMouseTask;
     TasksLength++;
 

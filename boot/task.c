@@ -6,10 +6,22 @@ void ProcessTasks() {
     int priority;
 
     priority = 5;
+    int i = 0;
     while(priority >= 0) {
         // Set mouse possessed taskid to the highest priority.
         // Notice this assumes that variables are passed in a certain order unfortunately.
-        for(int i = 0; i < TasksLength; i++) {
+        i = mouse_possessed_task_id;
+        if (
+                left_clicked == TRUE &&
+                mx > iparams[i * task_params_length + 0] &&
+                mx < iparams[i * task_params_length + 0] + iparams[i * task_params_length + 2] &&
+                my > iparams[i * task_params_length + 1] &&
+                my < iparams[i * task_params_length + 1] + iparams[i * task_params_length + 3]
+                ){
+                break;
+            }
+
+        for(i = 0; i < TasksLength; i++) {
             if (
                 left_clicked == TRUE &&
                 mx > iparams[i * task_params_length + 0] &&
@@ -17,7 +29,10 @@ void ProcessTasks() {
                 my > iparams[i * task_params_length + 1] &&
                 my < iparams[i * task_params_length + 1] + iparams[i * task_params_length + 3]
                 ){
-                mouse_possessed_task_id = i;
+                    tasks[mouse_possessed_task_id].priority = 0;
+                    mouse_possessed_task_id = i;
+                    tasks[i].priority = 2;
+                    left_clicked = FALSE;
             }
         }
         priority--;
@@ -35,12 +50,16 @@ void ProcessTasks() {
     }
 }
 
-void CloseTask(int taskid) {
-    for(int i = taskid; i < TasksLength-1; i++) {
-        tasks[i] = tasks[i+1];
-    }
+void NullTask(int taskId) {
+    return 0;
+}
 
-    TasksLength--;
+void CloseTask(int taskid) {
+    tasks[taskid].function = &NullTask;
+    iparams[TasksLength * task_params_length + 0] = 0;
+    iparams[TasksLength * task_params_length + 1] = 0;
+    iparams[TasksLength * task_params_length + 2] = 0;
+    iparams[TasksLength * task_params_length + 3] = 0;
 }
 
 int ClearScreenTask(int taskid) {
@@ -82,8 +101,7 @@ int TestGraphicalElementsTask(int taskid) {
     int* g = &iparams[taskid * task_params_length + 5];
     int* b = &iparams[taskid * task_params_length + 6];
 
-    if (
-        DrawWindow(
+   int closed_clicked = DrawWindow(
             &iparams[taskid * task_params_length + 0],
             &iparams[taskid * task_params_length + 1],
             &iparams[taskid * task_params_length + 2],
@@ -93,8 +111,14 @@ int TestGraphicalElementsTask(int taskid) {
             iparams[taskid * task_params_length + 6],
             &iparams[taskid * task_params_length + 9],
             taskid
-        ) == 1
-    ) {
+        );
+
+    int x  = iparams[taskid * task_params_length + 0];
+    int y  = iparams[taskid * task_params_length + 1];
+    int width  = iparams[taskid * task_params_length + 2];
+    int height  = iparams[taskid * task_params_length + 3];
+
+    if(closed_clicked == TRUE) {
         CloseTask(taskid);
     }
 
@@ -103,8 +127,8 @@ int TestGraphicalElementsTask(int taskid) {
 
     if (
         DrawButton(
-            iparams[taskid * task_params_length + 0] + 20,
-            iparams[taskid * task_params_length + 1] + 20,
+            x + 20,
+            y + 20,
             50, 20, 0, 32, 0,
             text, 16, 32, 16, taskid)
         == TRUE)  {
@@ -113,8 +137,8 @@ int TestGraphicalElementsTask(int taskid) {
 
     if (
         DrawButton(
-            iparams[taskid * task_params_length + 0] + 100,
-            iparams[taskid * task_params_length + 1] + 20,
+            x + 100,
+            y + 20,
             50, 20, 0, 32, 0,
             text1, 16, 32, 16, taskid)
         == TRUE)  {

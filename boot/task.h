@@ -22,6 +22,7 @@ struct Task tasks[256];
 int iparams[100] = { 10 };  // Extra parameters for tasks
 
 int ClearScreenTask(int taskid);
+void NullTask(int taskId);
 void CloseTask(int taskid);
 int DrawMouseTask(int taskid);
 int HandleKeyboardTask(int taskid);
