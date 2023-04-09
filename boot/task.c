@@ -3,8 +3,27 @@
 #include "graphics_elements.h"
 
 void ProcessTasks() {
-    int priority = 0;
+    int priority;
 
+    priority = 5;
+    while(priority >= 0) {
+        // Set mouse possessed taskid to the highest priority.
+        // Notice this assumes that variables are passed in a certain order unfortunately.
+        for(int i = 0; i < TasksLength; i++) {
+            if (
+                left_clicked == TRUE &&
+                mx > iparams[i * task_params_length + 0] &&
+                mx < iparams[i * task_params_length + 0] + iparams[i * task_params_length + 2] &&
+                my > iparams[i * task_params_length + 1] &&
+                my < iparams[i * task_params_length + 1] + iparams[i * task_params_length + 3]
+                ){
+                mouse_possessed_task_id = i;
+            }
+        }
+        priority--;
+    }
+
+    priority = 0;
     while (priority <= 5)
     {
         for(int i = 0; i < TasksLength; i++) {
@@ -72,7 +91,8 @@ int TestGraphicalElementsTask(int taskid) {
             iparams[taskid * task_params_length + 4],
             iparams[taskid * task_params_length + 5],
             iparams[taskid * task_params_length + 6],
-            &iparams[taskid * task_params_length + 9]
+            &iparams[taskid * task_params_length + 9],
+            taskid
         ) == 1
     ) {
         CloseTask(taskid);
@@ -86,7 +106,7 @@ int TestGraphicalElementsTask(int taskid) {
             iparams[taskid * task_params_length + 0] + 20,
             iparams[taskid * task_params_length + 1] + 20,
             50, 20, 0, 32, 0,
-            text, 16, 32, 16)
+            text, 16, 32, 16, taskid)
         == TRUE)  {
         *r = 0; *g = 0; *b = 0;
     }
@@ -96,7 +116,7 @@ int TestGraphicalElementsTask(int taskid) {
             iparams[taskid * task_params_length + 0] + 100,
             iparams[taskid * task_params_length + 1] + 20,
             50, 20, 0, 32, 0,
-            text1, 16, 32, 16)
+            text1, 16, 32, 16, taskid)
         == TRUE)  {
         *r = 221.0f / 255.0f * 16.0f;
         *g = 72.0f / 255.0f * 32.0f;
